@@ -34,10 +34,10 @@ async def everyone(client,message):
       has_permissions = message.sender_chat  
     if has_permissions:
       if len(chatQueue) > 5:
-        await message.reply("⛔️ | I'm already working on my maximum number of 5 chats at the moment. Please try again shortly.")
+        await message.reply("⛔️ | Şu anda maksimum 5 sohbetim üzerinde çalışıyorum. Lütfen kısa süre sonra tekrar deneyin.")
       else:  
         if message.chat.id in chatQueue:
-          await message.reply("🚫 | There's already an ongoing process in this chat. Please /stop to start a new one.")
+          await message.reply("🚫 | Bu sohbette zaten devam eden bir süreç var. Yeni bir tane başlatmak için lütfen /durdurun.")
         else:  
           chatQueue.append(message.chat.id)
           if len(message.command) > 1:
@@ -80,12 +80,12 @@ async def everyone(client,message):
                 pass  
               i = i+j
           if i == lenMembersList:    
-            await message.reply(f"✅ | Successfully mentioned **total number of {i} members**.\n❌ | Bots and deleted accounts were rejected.") 
+            await message.reply(f"✅ | Başarıyla etiketlendi **total number of {i} members**.\n❌ | Botlar ve silinen hesaplar reddedildi.") 
           else:
-            await message.reply(f"✅ | Successfully mentioned **{i} members.**\n❌ | Bots and deleted accounts were rejected.")    
+            await message.reply(f"✅ |Başarıyla etiketlendi **{i} members.**\n❌ | Botlar ve silinen hesaplar reddedildi.")    
           chatQueue.remove(message.chat.id)
     else:
-      await message.reply("👮🏻 | Sorry, **only admins** can execute this command.")  
+      await message.reply("👮🏻 | Bu komutu yalnızca yöneticiler çalıştırabilir")  
   except FloodWait as e:
     await asyncio.sleep(e.value) 
 
@@ -101,13 +101,13 @@ async def remove(client, message):
     if has_permissions:
       bot = await teletips.get_chat_member(message.chat.id, "self")
       if bot.status == ChatMemberStatus.MEMBER:
-        await message.reply("🕹 | I need admin permissions to remove deleted accounts.")  
+        await message.reply("🕹 | Silinen hesapları kaldırmak için yönetici izinlerine ihtiyacım var.")  
       else:  
         if len(chatQueue) > 5 :
-          await message.reply("⛔️ | I'm already working on my maximum number of 5 chats at the moment. Please try again shortly.")
+          await message.reply("⛔️ |Şu anda maksimum 5 sohbetim üzerinde çalışıyorum. Lütfen kısa süre sonra tekrar deneyin.")
         else:  
           if message.chat.id in chatQueue:
-            await message.reply("🚫 | There's already an ongoing process in this chat. Please /stop to start a new one.")
+            await message.reply("🚫 |Bu sohbette zaten devam eden bir süreç var. Yeni bir tane başlatmak için lütfen durdurun. ")
           else:  
             chatQueue.append(message.chat.id)  
             deletedList = []
@@ -141,7 +141,7 @@ async def remove(client, message):
                 await temp.delete()  
               chatQueue.remove(message.chat.id)
     else:
-      await message.reply("👮🏻 | Sorry, **only admins** can execute this command.")  
+      await message.reply("👮🏻 | Bu komutu yanlızca yöneticiler çalıştırabilir.")  
   except FloodWait as e:
     await asyncio.sleep(e.value)                               
         
@@ -161,7 +161,7 @@ async def stop(client, message):
         stopProcess = True
         await message.reply("🛑 | Stopped.")
     else:
-      await message.reply("👮🏻 | Sorry, **only admins** can execute this command.")
+      await message.reply("👮🏻 |  Bu komutu yanlızca yöneticiler çalıştırabilir.")
   except FloodWait as e:
     await asyncio.sleep(e.value)
 
@@ -234,13 +234,7 @@ async def bots(client, message):
 async def start(client, message):
   text = f'''
 Heya {message.from_user.mention},
-My name is **PingAll**. I'm here to help you to get everyone's attention by mentioning all members in your chat.
-
-I have some additional cool features and also I can work in channels.
-
-Don't forget to join my [channel](http://t.me/teletipsofficialchannel) to recieve information on all the latest updates.
-
-Hit /help to find out my commands and the use of them.
+Merhaba ben  @Spygrup için hazırlandım grupta etiket atıyorum.
 '''
   await teletips.send_message(message.chat.id, text, disable_web_page_preview=True)
 
@@ -248,16 +242,11 @@ Hit /help to find out my commands and the use of them.
 @teletips.on_message(filters.command("help"))
 async def help(client, message):
   text = '''
-Hey, let's have a quick look at my commands.
 
-**Commands**:
-- /ping "input": <i>Mention all members.</i>
-- /remove: <i>Remove all deleted accounts.</i>
-- /admins: <i>Mention all admins.</i>
-- /bots: <i>Get the full bot list.</i>
-- /stop: <i>Stop an on going process.</i>
+**Komutlar**:
+- /ping "input": <i>Tüm üyelerden bahsedin.</i>
+- /stop: <i>Devam eden bir süreci durdurun.</i>
 
-If you have any questions on how to use me, feel free to ask in my [support group](https://t.me/teletipsofficialontopicchat). More on my [page](https://github.com/teletips/PingAllBot-TeLeTiPs).
 '''
   await teletips.send_message(message.chat.id, text, disable_web_page_preview=True)
 
